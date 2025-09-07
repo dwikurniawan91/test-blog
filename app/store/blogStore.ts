@@ -10,6 +10,7 @@ interface BlogPost {
 	category: string;
 	summary: string;
 	isPublished: boolean;
+	imageUrl: string;
 }
 
 interface BlogState {
@@ -36,6 +37,7 @@ export const useBlogStore = create<BlogState>()(
 				category: "",
 				summary: "",
 				isPublished: false,
+				imageUrl: "",
 			},
 			setField: (field, value) => {
 				set({ formData: { ...get().formData, [field]: value } });
@@ -72,6 +74,7 @@ export const useBlogStore = create<BlogState>()(
 						category: "",
 						summary: "",
 						isPublished: false,
+						imageUrl: "",
 					},
 				});
 			},

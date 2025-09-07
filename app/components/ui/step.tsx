@@ -45,6 +45,10 @@ const Step1Metadata = () => {
 		setErrors(validationErrors);
 
 		if (Object.keys(validationErrors).length === 0) {
+			// Generate a random image URL before moving to the review step.
+			// Using a "seed" with a unique ID makes the image random for each post, but consistent if you go back and forth.
+			const seed = crypto.randomUUID();
+			setField("imageUrl", `https://picsum.photos/seed/${seed}/800/400`);
 			nextStep();
 		}
 	};
@@ -57,10 +61,14 @@ const Step1Metadata = () => {
 					id="title"
 					placeholder="e.g., My First Next.js App"
 					value={formData.title}
-					onChange={e => setField("title", e.target.value)}
+					onChange={e => {
+						setField("title", e.target.value);
+						if (errors.title) setErrors(prev => ({ ...prev, title: '' }));
+					}}
 				/>
 				{errors.title && (
 					<p className="text-red-500 text-sm mt-1">{errors.title}</p>
+
 				)}
 			</div>
 			<div className="grid gap-2">
@@ -69,7 +77,10 @@ const Step1Metadata = () => {
 					id="author"
 					placeholder="e.g., John Doe"
 					value={formData.author}
-					onChange={e => setField("author", e.target.value)}
+					onChange={e => {
+						setField("author", e.target.value);
+						if (errors.author) setErrors(prev => ({ ...prev, author: '' }));
+					}}
 				/>
 				{errors.author && (
 					<p className="text-red-500 text-sm mt-1">{errors.author}</p>
@@ -90,6 +101,7 @@ const Step2SummaryCategory = () => {
 	const handleNext = () => {
 		const validationSchema: ValidationSchema = {
 			summary: value => (value.trim() ? "" : "Blog summary is required."),
+			category: value => (value ? "" : "Please select a category."),
 		};
 		const validationErrors = validateFields(formData, validationSchema);
 		setErrors(validationErrors);
@@ -107,7 +119,10 @@ const Step2SummaryCategory = () => {
 					id="summary"
 					placeholder="A short and engaging summary of your post..."
 					value={formData.summary}
-					onChange={e => setField("summary", e.target.value)}
+					onChange={e => {
+						setField("summary", e.target.value);
+						if (errors.summary) setErrors(prev => ({ ...prev, summary: '' }));
+					}}
 				/>
 				{errors.summary && (
 					<p className="text-red-500 text-sm mt-1">{errors.summary}</p>
@@ -117,7 +132,10 @@ const Step2SummaryCategory = () => {
 				<Label htmlFor="category">Blog Category</Label>
 				<Select
 					value={formData.category}
-					onValueChange={value => setField("category", value)}
+					onValueChange={value => {
+						setField("category", value);
+						if (errors.category) setErrors(prev => ({ ...prev, category: '' }));
+					}}
 				>
 					<SelectTrigger id="category">
 						<SelectValue placeholder="Filter by category" />
@@ -130,6 +148,9 @@ const Step2SummaryCategory = () => {
 						))}
 					</SelectContent>
 				</Select>
+				{errors.category && (
+					<p className="text-red-500 text-sm mt-1">{errors.category}</p>
+				)}
 			</div>
 			<div className="flex justify-between">
 				<Button onClick={prevStep} variant="outline">
@@ -162,13 +183,17 @@ const Step3Content = () => {
 
 	return (
 		<div className="space-y-6">
-			<div>
+			<div className="grid gap-2">
 				<Label htmlFor="content">Blog Content</Label>
 				<Textarea
+					className="min-h-[400px]"
 					id="content"
 					placeholder="Write your full blog post here. Supports Markdown..."
 					value={formData.content}
-					onChange={e => setField("content", e.target.value)}
+					onChange={e => {
+						setField("content", e.target.value);
+						if (errors.content) setErrors(prev => ({ ...prev, content: '' }));
+					}}
 					rows={15}
 				/>
 				{errors.content && (
@@ -202,23 +227,21 @@ const Step4Review = ({ onFinish }: { onFinish: () => void }) => {
 		value: string | ReactNode;
 	}) => (
 		<div className="grid grid-cols-3 gap-4 items-start py-2">
-			<dt className="font-semibold text-gray-600 dark:text-gray-400">
-				{label}
-			</dt>
-			<dd className="col-span-2 text-gray-800 dark:text-gray-200">{value}</dd>
+			<dt className="font-semibold text-gray-600">{label}</dt>
+			<dd className="col-span-2 text-gray-800">{value}</dd>
 		</div>
 	);
 
 	return (
 		<div className="space-y-6">
 			<h3 className="text-lg font-medium">Review Your Post</h3>
-			<dl className="divide-y divide-gray-200 dark:divide-gray-700">
+			<dl className="divide-y divide-gray-200">
 				<ReviewItem label="Title" value={formData.title} />
 				<ReviewItem label="Author" value={formData.author} />
 				<ReviewItem
 					label="Category"
 					value={
-						<span className="inline-block bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300">
+						<span className="inline-block bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full">
 							{formData.category}
 						</span>
 					}
@@ -227,9 +250,11 @@ const Step4Review = ({ onFinish }: { onFinish: () => void }) => {
 				<ReviewItem
 					label="Content"
 					value={
-						<p className="whitespace-pre-wrap max-h-40 overflow-y-auto p-2 border rounded-md bg-gray-50 dark:bg-gray-800">
-							{formData.content}
-						</p>
+						<div className="min-h-[400px] border rounded-md bg-gray-5">
+							<p className="whitespace-pre-wrap  overflow-y-auto p-2 ">
+								{formData.content}
+							</p>
+						</div>
 					}
 				/>
 			</dl>

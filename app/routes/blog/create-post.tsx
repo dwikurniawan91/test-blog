@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
+import { toast } from "sonner";
 import { Button } from "~/components/ui/button";
 import { Card, CardContent, CardHeader } from "~/components/ui/card";
 import {
@@ -18,7 +19,6 @@ import { useBlogStore } from "~/store/blogStore";
 
 export default function CreatePostPage() {
 	const { currentStep } = useBlogStore();
-	const [showSuccess, setShowSuccess] = useState(false);
 	const [isHydrated, setIsHydrated] = useState(false);
 	const navigate = useNavigate();
 
@@ -34,8 +34,10 @@ export default function CreatePostPage() {
 	];
 	const currentStepInfo = steps.find(step => step.number === currentStep);
 	const onFinish = () => {
-		setShowSuccess(true);
-		navigate("/");
+		toast.success("Post created successfully");
+		setTimeout(() => {
+			navigate("/");
+		}, 500);
 	};
 
 	// Show loading state during hydration
@@ -80,7 +82,7 @@ export default function CreatePostPage() {
 					<div className="mt-4">
 						{/* Mobile */}
 						<div className="sm:hidden text-center">
-							<p className="text-sm font-semibold text-gray-900 dark:text-gray-50">
+							<p className="text-sm font-semibold text-gray-900">
 								Step {currentStepInfo?.number} of {steps.length}:{" "}
 								{currentStepInfo?.title}
 							</p>
@@ -88,7 +90,7 @@ export default function CreatePostPage() {
 								{steps.map(step => (
 									<div
 										key={step.number}
-										className={`flex-1 h-2 rounded-full ${currentStep >= step.number ? "bg-gray-900 dark:bg-gray-50" : "bg-gray-200 dark:bg-gray-700"}`}
+										className={`flex-1 h-2 rounded-full ${currentStep >= step.number ? "bg-gray-900" : "bg-gray-200"}`}
 									></div>
 								))}
 							</div>
@@ -99,10 +101,10 @@ export default function CreatePostPage() {
 							{steps.map(step => (
 								<div key={step.number} className="flex-1 text-center text-sm">
 									<div
-										className={`py-2 border-b-4 transition-colors duration-300 ${currentStep >= step.number ? "border-gray-900 dark:border-gray-50" : "border-gray-200 dark:border-gray-700"}`}
+										className={`py-2 border-b-4 transition-colors duration-300 ${currentStep >= step.number ? "border-gray-900" : "border-gray-200"}`}
 									>
 										<span
-											className={`font-semibold transition-colors duration-300 ${currentStep >= step.number ? "text-gray-900 dark:text-gray-50" : "text-gray-400"}`}
+											className={`font-semibold transition-colors duration-300 ${currentStep >= step.number ? "text-gray-900" : "text-gray-400"}`}
 										>
 											Step {step.number}
 										</span>
