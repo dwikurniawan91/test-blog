@@ -8,7 +8,7 @@
 		"start": "react-router-serve ./build/server/index.js",
     "preview": "vite preview",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist",
+    "deploy": "gh-pages -d build/client",
 		"typecheck": "vite typegen && tsc",
 		"lint": "eslint . --ext .ts,.tsx,.js,.jsx",
 		"lint:fix": "eslint . --ext .ts,.tsx,.js,.jsx --fix",
