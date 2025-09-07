@@ -1,4 +1,3 @@
-"use client";
 import { type ReactNode, useState } from "react";
 import { useBlogStore } from "~/store/blogStore";
 import { Button } from "./button";
@@ -46,7 +45,6 @@ const Step1Metadata = () => {
 
 		if (Object.keys(validationErrors).length === 0) {
 			// Generate a random image URL before moving to the review step.
-			// Using a "seed" with a unique ID makes the image random for each post, but consistent if you go back and forth.
 			const seed = crypto.randomUUID();
 			setField("imageUrl", `https://picsum.photos/seed/${seed}/800/400`);
 			nextStep();
@@ -59,7 +57,7 @@ const Step1Metadata = () => {
 				<Label htmlFor="title">Blog Title</Label>
 				<Input
 					id="title"
-					placeholder="e.g., My First Next.js App"
+					placeholder="e.g My First React App"
 					value={formData.title}
 					onChange={e => {
 						setField("title", e.target.value);
@@ -75,7 +73,7 @@ const Step1Metadata = () => {
 				<Label htmlFor="author">Author Name</Label>
 				<Input
 					id="author"
-					placeholder="e.g., John Doe"
+					placeholder="e.g. John D"
 					value={formData.author}
 					onChange={e => {
 						setField("author", e.target.value);
@@ -188,7 +186,7 @@ const Step3Content = () => {
 				<Textarea
 					className="min-h-[400px]"
 					id="content"
-					placeholder="Write your full blog post here. Supports Markdown..."
+					placeholder="Write your full blog post here..."
 					value={formData.content}
 					onChange={e => {
 						setField("content", e.target.value);

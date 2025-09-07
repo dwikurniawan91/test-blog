@@ -1,10 +1,4 @@
 import { Button } from "~/components/ui/button";
-import {
-	Navbar,
-	NavbarBrand,
-	NavbarTitle,
-	NavbarActions,
-} from "~/components/ui/navbar";
 import type { Route } from "./+types/$postId";
 import { Link, useNavigate, useParams } from "react-router";
 import { useBlogStore } from "~/store/blogStore";
@@ -36,9 +30,6 @@ export default function BlogPost() {
 	const post = useBlogStore(state =>
 		state.posts.find(post => post.id === postId)
 	);
-	const handleCreatePost = () => {
-		navigate("/blog/create-post");
-	};
 
 	if (!post) {
 		return (

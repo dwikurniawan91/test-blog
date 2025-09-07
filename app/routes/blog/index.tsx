@@ -1,12 +1,10 @@
 import { useEffect, useState } from "react";
-import { useNavigate, Link } from "react-router";
+import { Link } from "react-router";
 import { Button } from "~/components/ui/button";
 import { motion } from "framer-motion";
 import {
 	Card,
-	CardHeader,
 	CardContent,
-	CardFooter,
 } from "~/components/ui/card";
 import {
 	Navbar,
@@ -25,7 +23,6 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export default function BlogIndex() {
-	const navigate = useNavigate();
 	const [isHydrated, setIsHydrated] = useState(false);
 
 	useEffect(() => {
@@ -33,14 +30,6 @@ export default function BlogIndex() {
 	}, []);
 
 	const posts = useBlogStore(state => state.posts);
-
-	const handlePostClick = (postId: string) => {
-		navigate(`/blog/${postId}`);
-	};
-
-	const handleCreatePost = () => {
-		navigate("/blog/create-post");
-	};
 
 	const containerVariants = {
 		hidden: { opacity: 0 },
@@ -69,7 +58,7 @@ export default function BlogIndex() {
 			<>
 				<Navbar variant="colored">
 					<NavbarBrand>
-						<NavbarTitle>Wizard Blog</NavbarTitle>
+						<NavbarTitle>Blog Wizard</NavbarTitle>
 					</NavbarBrand>
 					<NavbarActions>
 						<Button disabled>Create New Post</Button>
@@ -88,10 +77,12 @@ export default function BlogIndex() {
 		<>
 			<Navbar variant="colored">
 				<NavbarBrand>
-					<NavbarTitle>Wizard Blog</NavbarTitle>
+					<NavbarTitle>Blog Wizard</NavbarTitle>
 				</NavbarBrand>
 				<NavbarActions>
-					<Button onClick={handleCreatePost}>Create New Post</Button>
+					<Link to="/blog/create-post">
+						<Button>Create New Post</Button>
+					</Link>
 				</NavbarActions>
 			</Navbar>
 			<div className="grid gap-4 py-8 px-4 overflow-scroll">
