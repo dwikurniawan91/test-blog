@@ -1,0 +1,7 @@
+node_modules/
+build/
+dist/
+.react-router/
+*.config.js
+*.config.ts
+package-lock.json
