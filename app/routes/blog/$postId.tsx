@@ -70,7 +70,7 @@ export default function BlogPost() {
 						<Card className="overflow-hidden">
 							<motion.div layoutId={`image-${post.id}`} className="relative">
 								<img
-									src={post.imageUrl || "/placeholder.svg"}
+									src={post.imageUrl}
 									alt={post.title}
 									className="w-full h-64 md:h-80 object-cover"
 								/>

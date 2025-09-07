@@ -112,7 +112,7 @@ export default function BlogIndex() {
 									<Card className="overflow-hidden h-full hover:shadow-lg transition-shadow cursor-pointer">
 										<motion.div layoutId={`image-${post.id}`}>
 											<img
-												src={post.imageUrl || "/placeholder.svg"}
+												src={post.imageUrl}
 												alt={post.title}
 												className="w-full h-48 object-cover"
 											/>
